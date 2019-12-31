@@ -90,3 +90,7 @@ spring.redisson.password=xxx
 | ua-rule.allowed-pc       | 是否允许移PC设备访问                     | true   | true                |
 | ua-rule.allowed-iot      | 是否允许物联网设备访问                   | false  | false               |
 | ua-rule.allowed-proxy    | 是否允许代理访问                         | false  | false               |
+
+## 7、命中规则后
+命中爬虫和防盗刷规则后，会阻断请求，并生成接除阻断的验证码，验证码有多种组合方式，如果客户端可以正确输入验证码，则可以继续访问  
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1231/165221_4a0f9d93_492218.png "屏幕截图.png")
