@@ -55,7 +55,6 @@ axios.interceptors.response.use(
 
 export default axios;
 ```
-凯京科技内部用户可以访问 https://git.keking.cn/infrastructure/kk-antireptile-demo 查看接入示例
 
 ## 5. 注意
 1. apollo-client需启用bootstrap
