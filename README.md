@@ -133,4 +133,6 @@ spring.redisson.password=xxx
 
 ## 联系我们
 
-使用过程中有任何问题，都可以加入官方 QQ 群：613025121 咨询讨论 ![官方 QQ 群](https://kkfileview.keking.cn/anti-reptile/qq.png)
+使用过程中有任何问题，都可以加入官方 QQ 群：613025121 咨询讨论 
+
+![官方 QQ 群](https://kkfileview.keking.cn/anti-reptile/qq.png)
