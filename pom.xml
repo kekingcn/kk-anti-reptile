@@ -21,6 +21,9 @@
         </profile>
         <profile>
             <id>2.x</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <spring_boot.version>2.1.6.RELEASE</spring_boot.version>
             </properties>

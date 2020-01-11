@@ -18,7 +18,12 @@ public class AntiReptileProperties {
     private boolean enabled;
 
     /**
-     * 需要反爬的接口列表，以'/'开头，以','分隔
+     * 是否启用全局拦截，默认为false，可设置为true全局拦截
+     */
+    private boolean globalFilterMode = false;
+
+    /**
+     * 非全局拦截下，需要反爬的接口列表，以'/'开头，以','分隔
      */
     private List<String> includeUrls;
 
@@ -62,6 +67,13 @@ public class AntiReptileProperties {
 
     public void setUaRule(UaRule uaRule) {
         this.uaRule = uaRule;
+    }
+
+    public boolean isGlobalFilterMode() {
+        return globalFilterMode;
+    }
+    public void setGlobalFilterMode(boolean globalFilterMode) {
+        this.globalFilterMode = globalFilterMode;
     }
 
     public static class IpRule {

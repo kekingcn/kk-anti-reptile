@@ -32,6 +32,8 @@ public class AntiReptileFilter implements Filter {
 
     private List<String> includeUrls = new ArrayList<>();
 
+    private boolean globalFilterMode;
+
     private VerifyImageUtil verifyImageUtil;
 
     private ValidateFormService validateFormService;
@@ -49,10 +51,12 @@ public class AntiReptileFilter implements Filter {
         }
         ServletContext context = filterConfig.getServletContext();
         ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);
+        assert ctx != null;
         this.actuator = ctx.getBean(RuleActuator.class);
         this.verifyImageUtil = ctx.getBean(VerifyImageUtil.class);
         this.validateFormService = ctx.getBean(ValidateFormService.class);
         this.includeUrls = ctx.getBean(AntiReptileProperties.class).getIncludeUrls();
+        this.globalFilterMode =  ctx.getBean(AntiReptileProperties.class).isGlobalFilterMode();
     }
 
     @Override
@@ -73,7 +77,7 @@ public class AntiReptileFilter implements Filter {
             response.getWriter().write(result);
             response.getWriter().close();
             return;
-        } else if (includeUrls.contains(requestUrl) && !actuator.isAllowed(request, response)) {
+        } else if (isFilter(requestUrl) && !actuator.isAllowed(request, response)) {
             CrosUtil.setCrosHeader(response);
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(509);
@@ -87,6 +91,19 @@ public class AntiReptileFilter implements Filter {
             return;
         }
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * 是否拦截
+     * @param requestUrl
+     * @return
+     */
+    public boolean isFilter(String requestUrl){
+        if(this.globalFilterMode){
+            return true;
+        }else {
+            return includeUrls.contains(requestUrl);
+        }
     }
 
     @Override
