@@ -7,6 +7,8 @@ import cn.keking.anti_reptile.module.VerifyImageDTO;
 import cn.keking.anti_reptile.rule.RuleActuator;
 import cn.keking.anti_reptile.util.CrosUtil;
 import cn.keking.anti_reptile.util.VerifyImageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
@@ -26,11 +28,13 @@ import java.util.List;
  */
 public class AntiReptileFilter implements Filter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AntiReptileFilter.class);
+
     private String antiReptileForm;
 
     private RuleActuator actuator;
 
-    private List<String> includeUrls = new ArrayList<>();
+    private List<String> includeUrls;
 
     private boolean globalFilterMode;
 
@@ -56,7 +60,13 @@ public class AntiReptileFilter implements Filter {
         this.verifyImageUtil = ctx.getBean(VerifyImageUtil.class);
         this.validateFormService = ctx.getBean(ValidateFormService.class);
         this.includeUrls = ctx.getBean(AntiReptileProperties.class).getIncludeUrls();
-        this.globalFilterMode =  ctx.getBean(AntiReptileProperties.class).isGlobalFilterMode();
+        this.globalFilterMode = ctx.getBean(AntiReptileProperties.class).isGlobalFilterMode();
+        if (this.includeUrls == null){
+            this.includeUrls = new ArrayList<>();
+            if(!this.globalFilterMode){
+                LOGGER.warn("AntiReptileFilter提示：当前拦截模式为非全局拦截模式，并且未添加需要拦截的接口;可以通过在配置文件中配置anti.reptile.manager.globalFilterMode=true开启全局模式，或者通过配置anti.reptile.manager.include-urls添加需要拦截的接口，配置详情参考：https://github.com/kekingcn/kk-anti-reptile/blob/master/README.md");
+            }
+        }
     }
 
     @Override
