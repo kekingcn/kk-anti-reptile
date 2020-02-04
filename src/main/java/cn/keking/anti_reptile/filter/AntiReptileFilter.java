@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author kl @kailing.pub
@@ -61,9 +62,9 @@ public class AntiReptileFilter implements Filter {
         this.validateFormService = ctx.getBean(ValidateFormService.class);
         this.includeUrls = ctx.getBean(AntiReptileProperties.class).getIncludeUrls();
         this.globalFilterMode = ctx.getBean(AntiReptileProperties.class).isGlobalFilterMode();
-        if (this.includeUrls == null){
+        if (this.includeUrls == null) {
             this.includeUrls = new ArrayList<>();
-            if(!this.globalFilterMode){
+            if (!this.globalFilterMode) {
                 LOGGER.warn("AntiReptileFilter提示：当前拦截模式为非全局拦截模式，并且未添加需要拦截的接口;可以通过在配置文件中配置anti.reptile.manager.globalFilterMode=true开启全局模式，或者通过配置anti.reptile.manager.include-urls添加需要拦截的接口，配置详情参考：https://github.com/kekingcn/kk-anti-reptile/blob/master/README.md");
             }
         }
@@ -105,14 +106,19 @@ public class AntiReptileFilter implements Filter {
 
     /**
      * 是否拦截
-     * @param requestUrl
-     * @return
+     * @param requestUrl 请求uri
+     * @return 是否拦截
      */
-    public boolean isFilter(String requestUrl){
-        if(this.globalFilterMode){
+    public boolean isFilter(String requestUrl) {
+        if (this.globalFilterMode || includeUrls.contains(requestUrl)) {
             return true;
-        }else {
-            return includeUrls.contains(requestUrl);
+        } else {
+            for (String includeUrl : includeUrls) {
+                if (Pattern.matches(includeUrl, requestUrl)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

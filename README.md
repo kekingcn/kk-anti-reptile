@@ -120,7 +120,7 @@ spring.redisson.password=xxx
 | --- | --- | --- | --- |
 | enabled | 是否启用反爬虫插件 | true | true |
 | globalFilterMode | 是否启用全局拦截模式 | false | true |
-| include-urls | 局部拦截时，需要反爬的接口列表，以'/'开头，以','分隔。全局拦截模式下不需要设置此配置 | 空 | /client,/user |
+| include-urls | 局部拦截时，需要反爬的接口列表，以','分隔，支持正则匹配。全局拦截模式下无需配置 | 空 | /client,/user,^/admin/.*$ |
 | ip-rule.enabled | 是否启用 IP Rule | true | true |
 | ip-rule.expiration-time | 时间窗口长度(ms) | 5000 | 5000 |
 | ip-rule.request-max-size | 单个时间窗口内，最大请求数 | 20 | 20 |
