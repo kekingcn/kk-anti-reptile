@@ -4,7 +4,8 @@ kk-anti-reptile 是适用于`基于 spring-boot 开发的分布式系统`的开�
 
 ## 开源地址
 
-[https://gitee.com/kekingcn/kk-anti-reptile](https://gitee.com/kekingcn/kk-anti-reptile)  
+[https://gitee.com/kekingcn/kk-anti-reptile](https://gitee.com/kekingcn/kk-anti-reptile)
+
 [https://github.com/kekingcn/kk-anti-reptile](https://github.com/kekingcn/kk-anti-reptile)
 
 ## 系统要求
@@ -46,10 +47,10 @@ ua-rule 通过判断请求携带的 User-Agent，得到操作系统、设备信�
 
 ## 接入使用
 
-后端接入非常简单，只需要引用 kk-anti-reptile 的 maven 依赖，并配置启用 kk-anti-reptile 即可  
-加入 maven 依赖
+接入非常简单，只需要引用 kk-anti-reptile 的 maven 依赖，并配置启用 kk-anti-reptile 即可  
+### 1. 加入 maven 依赖
 
-```
+```xml
 <dependency>
     <groupId>cn.keking.project</groupId>
     <artifactId>kk-anti-reptile</artifactId>
@@ -58,16 +59,47 @@ ua-rule 通过判断请求携带的 User-Agent，得到操作系统、设备信�
 
 ```
 
-配置启用 kk-anti-reptile
+### 2. 配置启用 kk-anti-reptile
 
-```
-anti.reptile.manager.enabled=true
+在spring-boot配置文件中加入如下配置 `anti.reptile.manager.enabled`
 
+```properties
+anti.reptile.manager.enabled = true
 ```
+### 3. 配置需要反爬的接口
+
+配置反爬接口有如下两种方式，两种方式可以同时使用
+
+1. 使用配置文件
+
+在spring-boot配置文件中加入如下配置项`anti.reptile.manager.include-urls`，值为反爬的接口URI（如：/client/list），支持正则表达式匹配（如：^/admin/.*$），多项用`,`分隔
+```properties
+anti.reptile.manager.include-urls = /client/list,/user/list,^/admin/.*$
+```
+
+2. 使用注解
+
+在需要反爬的接口Controller对象对应的接口上加上`@AntiReptile`注解即可，示例如下
+
+```java
+@RestController
+@RequestMapping("/demo")
+public class DemoController {
+
+    @AntiReptile
+    @GetMapping("")
+    public String demo() {
+        return "Hello，World!";
+    }
+
+}
+```
+
+### 4. 前端统一处理验证码页面
 
 前端需要在统一发送请求的 ajax 处加入拦截，拦截到请求返回状态码`509`后弹出一个新页面，并把响应内容转出到页面中，然后向页面中传入后端接口`baseUrl`参数即可，以使用 axios 请求为例：
 
-```
+```javascript
 import axios from 'axios';
 import {baseUrl} from './config';
 
@@ -86,7 +118,6 @@ axios.interceptors.response.use(
 );
 
 export default axios;
-
 ```
 
 ## 注意
@@ -95,19 +126,17 @@ export default axios;
 
 使用 apollo 配置中心的用户，由于组件内部用到`@ConditionalOnProperty`，要在 application.properties/bootstrap.properties 中加入如下样例配置，(apollo-client 需要 0.10.0 及以上版本）详见[apollo bootstrap 说明](https://github.com/ctripcorp/apollo/wiki/Java%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97#3213-spring-boot%E9%9B%86%E6%88%90%E6%96%B9%E5%BC%8F%E6%8E%A8%E8%8D%90)
 
-```
+```properties
 apollo.bootstrap.enabled = true
-
 ```
 
 1.  需要有 Redisson 连接
 
 如果项目中有用到 Redisson，kk-anti-reptile 会自动获取 RedissonClient 实例对象; 如果没用到，需要在配置文件加入如下 Redisson 连接相关配置
 
-```
-spring.redisson.address=redis://192.168.1.204:6379
-spring.redisson.password=xxx
-
+```properties
+spring.redisson.address = redis://192.168.1.204:6379
+spring.redisson.password = xxx
 ```
 
 ## 配置一览表
@@ -120,7 +149,7 @@ spring.redisson.password=xxx
 | --- | --- | --- | --- |
 | enabled | 是否启用反爬虫插件 | true | true |
 | globalFilterMode | 是否启用全局拦截模式 | false | true |
-| include-urls | 局部拦截时，需要反爬的接口列表，以'/'开头，以','分隔。全局拦截模式下不需要设置此配置 | 空 | /client,/user |
+| include-urls | 局部拦截时，需要反爬的接口列表，以','分隔，支持正则匹配。全局拦截模式下无需配置 | 空 | /client,/user,^/admin/.*$ |
 | ip-rule.enabled | 是否启用 IP Rule | true | true |
 | ip-rule.expiration-time | 时间窗口长度(ms) | 5000 | 5000 |
 | ip-rule.request-max-size | 单个时间窗口内，最大请求数 | 20 | 20 |
