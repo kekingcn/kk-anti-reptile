@@ -2,6 +2,7 @@ package cn.keking.anti_reptile.config;
 
 import cn.keking.anti_reptile.ValidateFormService;
 import cn.keking.anti_reptile.filter.AntiReptileFilter;
+import cn.keking.anti_reptile.interceptor.AntiReptileInterceptor;
 import cn.keking.anti_reptile.rule.AntiReptileRule;
 import cn.keking.anti_reptile.rule.IpRule;
 import cn.keking.anti_reptile.rule.RuleActuator;
@@ -25,8 +26,8 @@ import java.util.stream.Collectors;
  */
 @Configuration
 @EnableConfigurationProperties(AntiReptileProperties.class)
-@ConditionalOnProperty(prefix = "anti.reptile.manager", value = "enabled", havingValue = "true", matchIfMissing = false)
-@Import(RedissonAutoConfig.class)
+@ConditionalOnProperty(prefix = "anti.reptile.manager", value = "enabled", havingValue = "true")
+@Import({RedissonAutoConfig.class, WebMvcConfig.class})
 public class AntiReptileAutoConfig {
 
     @Bean
@@ -65,6 +66,11 @@ public class AntiReptileAutoConfig {
     @Bean
     public ValidateFormService validateFormService(){
         return new ValidateFormService();
+    }
+
+    @Bean
+    public AntiReptileInterceptor antiReptileInterceptor() {
+        return new AntiReptileInterceptor();
     }
 
 }
