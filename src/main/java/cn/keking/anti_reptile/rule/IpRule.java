@@ -27,6 +27,7 @@ public class IpRule extends AbstractRule {
     private static final String RATELIMITER_HIT_CRAWLERSTRATEGY = "ratelimiter_hit_crawlerstrategy";
 
     @Override
+    @SuppressWarnings("unchecked")
     protected boolean doExecute(HttpServletRequest request, HttpServletResponse response) {
         String ipAddress = getIpAddr(request);
         List<String> ignoreIpList = properties.getIpRule().getIgnoreIp();
