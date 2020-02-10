@@ -1,16 +1,18 @@
 package cn.keking.anti_reptile.config;
 
 import cn.keking.anti_reptile.ValidateFormService;
-import cn.keking.anti_reptile.filter.AntiReptileFilter;
+import cn.keking.anti_reptile.constant.AntiReptileConsts;
 import cn.keking.anti_reptile.interceptor.AntiReptileInterceptor;
 import cn.keking.anti_reptile.rule.AntiReptileRule;
 import cn.keking.anti_reptile.rule.IpRule;
 import cn.keking.anti_reptile.rule.RuleActuator;
 import cn.keking.anti_reptile.rule.UaRule;
+import cn.keking.anti_reptile.servlet.RefreshFormServlet;
+import cn.keking.anti_reptile.servlet.ValidateFormServlet;
 import cn.keking.anti_reptile.util.VerifyImageUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -31,12 +33,13 @@ import java.util.stream.Collectors;
 public class AntiReptileAutoConfig {
 
     @Bean
-    public FilterRegistrationBean antiReptileFilter(){
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new AntiReptileFilter());
-        registration.addUrlPatterns("/*");
-        registration.setOrder(1);
-        return registration;
+    public ServletRegistrationBean validateFormServlet() {
+        return new ServletRegistrationBean(new ValidateFormServlet(), AntiReptileConsts.VALIDATE_REQUEST_URI);
+    }
+
+    @Bean
+    public ServletRegistrationBean refreshFormServlet() {
+        return new ServletRegistrationBean(new RefreshFormServlet(), AntiReptileConsts.REFRESH_REQUEST_URI);
     }
 
     @Bean

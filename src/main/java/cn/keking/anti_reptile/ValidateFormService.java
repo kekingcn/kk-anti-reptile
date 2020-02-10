@@ -5,10 +5,18 @@ import cn.keking.anti_reptile.module.VerifyImageVO;
 import cn.keking.anti_reptile.rule.RuleActuator;
 import cn.keking.anti_reptile.util.VerifyImageUtil;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author kl @kailing.pub
@@ -23,12 +31,28 @@ public class ValidateFormService {
     @Autowired
     private VerifyImageUtil verifyImageUtil;
 
-    public String validate(HttpServletRequest request) {
-        String verifyId = request.getParameter("verifyId");
-        String result = request.getParameter("result");
-        String realRequestUri = request.getParameter("realRequestUri");
-        String actruaResult = verifyImageUtil.getVerifyCodeFromRedis(verifyId);
-        if (actruaResult != null && request != null && actruaResult.equals(result.toLowerCase())) {
+    public String validate(HttpServletRequest request) throws UnsupportedEncodingException {
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        upload.setHeaderEncoding("UTF-8");
+        List items = null;
+        try {
+            items = upload.parseRequest(request);
+        } catch (FileUploadException e) {
+            e.printStackTrace();
+        }
+        Map<String, String> params = new HashMap<String, String>();
+        for(Object object : items){
+            FileItem fileItem = (FileItem) object;
+            if (fileItem.isFormField()) {
+                params.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
+            }
+        }
+        String verifyId = params.get("verifyId");
+        String result =  params.get("result");
+        String realRequestUri = params.get("realRequestUri");
+        String actualResult = verifyImageUtil.getVerifyCodeFromRedis(verifyId);
+        if (actualResult != null && request != null && actualResult.equals(result.toLowerCase())) {
             actuator.reset(request, realRequestUri);
             return "{\"result\":true}";
         }
