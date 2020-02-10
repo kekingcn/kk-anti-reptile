@@ -15,11 +15,11 @@ kk-anti-reptile 是适用于`基于 spring-boot 开发的分布式系统`的开�
 
 ## 工作流程
 
-kk-anti-reptile 使用基于 Servlet 规范的的 Filter 对请求进行过滤，在其内部通过 spring-boot 的扩展点机制，实例化一个 Filter，并注入到 Spring 容器 FilterRegistrationBean 中，通过 Spring 注入到 Servlet 容器中，从而实现对请求的过滤
+kk-anti-reptile 使用 [SpringMVC拦截器](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-handlermapping-interceptor) 对请求进行过滤，通过 spring-boot 的扩展点机制，实例化一个Spring HandlerInterceptor Bean，通过 Spring 注入到 Servlet 容器中，从而实现对请求的过滤
 
-在 kk-anti-reptile 的过滤 Filter 内部，又通过责任链模式，将各种不同的过滤规则织入，并提供抽象接口，可由调用方进行规则扩展
+在 kk-anti-reptile 的过滤 Interceptor 内部，又通过责任链模式，将各种不同的过滤规则织入，并提供抽象接口，可由调用方进行规则扩展
 
-Filter 调用则链进行请求过滤，如过滤不通过，则拦截请求，返回状态码`509`，并输出验证码输入页面，输出验证码正确后，调用过滤规则链对规则进行重置
+Interceptor 调用则链进行请求过滤，如过滤不通过，则拦截请求，返回状态码`509`，并输出验证码输入页面，输出验证码正确后，调用过滤规则链对规则进行重置
 
 目前规则链中有如下两个规则
 
