@@ -67,11 +67,9 @@ public class IpRule extends AbstractRule {
     }
 
     /**
-     * 重置访问记录
-     *
-     * @param request
-     * @param realRequestUri
-     * @return
+     * 重置已记录规则
+     * @param request 请求
+     * @param realRequestUri 原始请求uri
      */
     @Override
     public void reset(HttpServletRequest request, String realRequestUri) {

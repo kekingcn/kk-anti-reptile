@@ -17,7 +17,7 @@ public class CaptchaUtil {
      * 输出验证码
      *
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String out(OutputStream outputStream) {
         return out(5, outputStream);
@@ -28,7 +28,7 @@ public class CaptchaUtil {
      *
      * @param len      长度
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String out(int len, OutputStream outputStream) {
         return out(130, 48, len, outputStream);
@@ -40,7 +40,7 @@ public class CaptchaUtil {
      * @param len      长度
      * @param font     字体
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String out(int len, Font font, OutputStream outputStream) {
         return out(130, 48, len, font, outputStream);
@@ -53,7 +53,7 @@ public class CaptchaUtil {
      * @param height   高度
      * @param len      长度
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String out(int width, int height, int len, OutputStream outputStream) {
         return out(width, height, len, null, outputStream);
@@ -67,7 +67,7 @@ public class CaptchaUtil {
      * @param len      长度
      * @param font     字体
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String out(int width, int height, int len, Font font,  OutputStream outputStream) {
         int cType = new Random().nextInt(6);
@@ -78,7 +78,7 @@ public class CaptchaUtil {
      * 输出验证码
      *
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String outPng( OutputStream outputStream) {
         return outPng(5, outputStream);
@@ -89,7 +89,7 @@ public class CaptchaUtil {
      *
      * @param len      长度
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String outPng(int len, OutputStream outputStream) {
         return outPng(130, 48, len,outputStream);
@@ -101,7 +101,7 @@ public class CaptchaUtil {
      * @param len      长度
      * @param font     字体
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String outPng(int len, Font font, OutputStream outputStream) {
         return outPng(130, 48, len, font, outputStream);
@@ -114,7 +114,7 @@ public class CaptchaUtil {
      * @param height   高度
      * @param len      长度
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String outPng(int width, int height, int len, OutputStream outputStream) {
         return outPng(width, height, len, null, outputStream);
@@ -128,7 +128,7 @@ public class CaptchaUtil {
      * @param len      长度
      * @param font     字体
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     public static String outPng(int width, int height, int len, Font font, OutputStream outputStream) {
         int cType = new Random().nextInt(6);
@@ -144,7 +144,7 @@ public class CaptchaUtil {
      * @param font     字体
      * @param cType    类型
      * @param outputStream OutputStream
-     * @throws IOException IO异常
+     * @return 验证码结果
      */
     private static String outCaptcha(int width, int height, int len, Font font, int cType, OutputStream outputStream) {
         BaseCaptcha captcha = null;
