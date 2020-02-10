@@ -9,41 +9,86 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-        <redisson.version>3.11.0</redisson.version>
-        <spring_boot.version>1.5.9.RELEASE</spring_boot.version>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
+        <redisson.version>3.11.0</redisson.version>
+        <servlet-api.version>3.0.1</servlet-api.version>
+        <ua-util.version>1.21</ua-util.version>
     </properties>
-    
+
+    <name>kk-anti-reptile</name>
+    <url>https://gitee.com/kekingcn/kk-anti-reptile</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://gitee.com/kekingcn/kk-anti-reptile</url>
+        <connection>scm:git:https://gitee.com/kekingcn/kk-anti-reptile.git</connection>
+        <developerConnection>scm:git:https://gitee.com/kekingcn/kk-anti-reptile.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>Gitee</system>
+        <url>https://gitee.com/kekingcn/kk-anti-reptile/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <name>kl</name>
+            <email>632104866@qq.com</email>
+            <organization>凯京科技</organization>
+            <organizationUrl>https://www.keking.com/</organizationUrl>
+            <url>http://www.kailing.pub/</url>
+        </developer>
+
+        <developer>
+            <name>chenjh</name>
+            <email>842761733@qq.com</email>
+            <organization>凯京科技</organization>
+            <organizationUrl>https://www.keking.com/</organizationUrl>
+            <url>https://github.com/gitchenjh</url>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
+            <version>${servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
-            <version>${spring_boot.version}</version>
+            <version>${spring-boot.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>${spring_boot.version}</version>
+            <version>${spring-boot.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring_boot.version}</version>
+            <version>${spring-boot.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>${spring-boot.version}</version>
             <scope>provided</scope>
-            <version>${spring_boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.redisson</groupId>
@@ -54,7 +99,7 @@
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
-            <version>1.21</version>
+            <version>${ua-util.version}</version>
         </dependency>
     </dependencies>
 
@@ -63,17 +108,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${maven-source-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -85,15 +129,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>repo</id>
-            <url>http://ops.keking.cn:8081/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>repo</id>
-            <url>http://ops.keking.cn:8081/nexus/content/repositories/releases</url>
-        </repository>
-    </distributionManagement>
 </project>
