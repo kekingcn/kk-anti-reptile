@@ -54,7 +54,7 @@ ua-rule 通过判断请求携带的 User-Agent，得到操作系统、设备信�
 <dependency>
     <groupId>cn.keking.project</groupId>
     <artifactId>kk-anti-reptile</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-RELEASE</version>
 </dependency>
 
 ```
