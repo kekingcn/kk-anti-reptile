@@ -26,13 +26,10 @@ public class RedissonAutoConfig {
     private String address;
     private int connectionMinimumIdleSize = 10;
     private int idleConnectionTimeout=10000;
-    private int pingTimeout=1000;
     private int connectTimeout=10000;
     private int timeout=3000;
     private int retryAttempts=3;
     private int retryInterval=1500;
-    private int reconnectionTimeout=3000;
-    private int failedAttempts=3;
     private String password = null;
     private int subscriptionsPerConnection=5;
     private String clientName=null;
@@ -58,14 +55,11 @@ public class RedissonAutoConfig {
                 .setSubscriptionConnectionPoolSize(subscriptionConnectionPoolSize)
                 .setSubscriptionsPerConnection(subscriptionsPerConnection)
                 .setClientName(clientName)
-                .setFailedAttempts(failedAttempts)
                 .setRetryAttempts(retryAttempts)
                 .setRetryInterval(retryInterval)
-                .setReconnectionTimeout(reconnectionTimeout)
                 .setTimeout(timeout)
                 .setConnectTimeout(connectTimeout)
                 .setIdleConnectionTimeout(idleConnectionTimeout)
-                .setPingTimeout(pingTimeout)
                 .setPassword(password);
         Codec codec=(Codec) ClassUtils.forName(getCodec(), ClassUtils.getDefaultClassLoader()).newInstance();
         config.setCodec(codec);
@@ -87,14 +81,6 @@ public class RedissonAutoConfig {
 
     public void setIdleConnectionTimeout(int idleConnectionTimeout) {
         this.idleConnectionTimeout = idleConnectionTimeout;
-    }
-
-    public int getPingTimeout() {
-        return pingTimeout;
-    }
-
-    public void setPingTimeout(int pingTimeout) {
-        this.pingTimeout = pingTimeout;
     }
 
     public int getConnectTimeout() {
@@ -127,22 +113,6 @@ public class RedissonAutoConfig {
 
     public void setRetryInterval(int retryInterval) {
         this.retryInterval = retryInterval;
-    }
-
-    public int getReconnectionTimeout() {
-        return reconnectionTimeout;
-    }
-
-    public void setReconnectionTimeout(int reconnectionTimeout) {
-        this.reconnectionTimeout = reconnectionTimeout;
-    }
-
-    public int getFailedAttempts() {
-        return failedAttempts;
-    }
-
-    public void setFailedAttempts(int failedAttempts) {
-        this.failedAttempts = failedAttempts;
     }
 
     public String getPassword() {
