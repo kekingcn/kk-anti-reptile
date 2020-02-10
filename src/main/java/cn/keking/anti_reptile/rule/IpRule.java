@@ -27,6 +27,7 @@ public class IpRule extends AbstractRule {
     private static final String RATELIMITER_HIT_CRAWLERSTRATEGY = "ratelimiter_hit_crawlerstrategy";
 
     @Override
+    @SuppressWarnings("unchecked")
     protected boolean doExecute(HttpServletRequest request, HttpServletResponse response) {
         String ipAddress = getIpAddr(request);
         List<String> ignoreIpList = properties.getIpRule().getIgnoreIp();
@@ -66,11 +67,9 @@ public class IpRule extends AbstractRule {
     }
 
     /**
-     * 重置访问记录
-     *
-     * @param request
-     * @param realRequestUri
-     * @return
+     * 重置已记录规则
+     * @param request 请求
+     * @param realRequestUri 原始请求uri
      */
     @Override
     public void reset(HttpServletRequest request, String realRequestUri) {

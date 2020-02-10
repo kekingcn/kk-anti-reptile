@@ -100,6 +100,7 @@ public class AntiReptileInterceptor extends HandlerInterceptorAdapter {
     /**
      * 是否拦截
      * @param requestUrl 请求uri
+     * @param isAntiReptileAnnotation 是否有AntiReptile注解
      * @return 是否拦截
      */
     public boolean isIntercept(String requestUrl, Boolean isAntiReptileAnnotation) {
