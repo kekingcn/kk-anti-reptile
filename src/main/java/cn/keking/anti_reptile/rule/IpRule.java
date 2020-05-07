@@ -4,7 +4,10 @@ import cn.keking.anti_reptile.config.AntiReptileProperties;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -15,6 +18,8 @@ import java.util.concurrent.TimeUnit;
  * @since 2019/7/8
  */
 public class IpRule extends AbstractRule {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(IpRule.class);
 
     @Autowired
     private RedissonClient redissonClient;
@@ -55,11 +60,12 @@ public class IpRule extends AbstractRule {
         } else {
             RMap rHitMap = redissonClient.getMap(RATELIMITER_HIT_CRAWLERSTRATEGY);
             if ((rRequestCount.incrementAndGet() > requestMaxSize) || rHitMap.containsKey(ipAddress)) {
-                //触发爬虫策略 ，设置10天后可重新访问
-                rExpirationTime.expire(10, TimeUnit.DAYS);
+                //触发爬虫策略 ，默认10天后可重新访问
+                long lockExpire = properties.getIpRule().getLockExpire();
+                rExpirationTime.expire(lockExpire, TimeUnit.SECONDS);
                 //保存触发来源
-                rHitMap.put(ipAddress,requestUrl);
-                System.out.println("Intercepted request, uri: " + requestUrl + ", ip：" + ipAddress + " request " + requestMaxSize + " times in " + expirationTime + " ms");
+                rHitMap.put(ipAddress, requestUrl);
+                LOGGER.info("Intercepted request, uri: {}, ip：{}, request :{}, times in {} ms。Automatically unlock after {} seconds", requestUrl, ipAddress, requestMaxSize, expirationTime,lockExpire);
                 return true;
             }
         }

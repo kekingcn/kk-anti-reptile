@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author kl @kailing.pub
@@ -94,9 +95,21 @@ public class AntiReptileProperties {
         private Integer requestMaxSize = 20;
 
         /**
+         * 命中规则后，锁定期限,默认10天，单位：秒（s）
+         */
+        private long lockExpire = TimeUnit.DAYS.toSeconds(1);
+        /**
          * IP白名单，支持后缀'*'通配，以','分隔
          */
         private List<String> ignoreIp;
+
+        public long getLockExpire() {
+            return lockExpire;
+        }
+
+        public void setLockExpire(long lockExpire) {
+            this.lockExpire = lockExpire;
+        }
 
         public boolean isEnabled() {
             return enabled;

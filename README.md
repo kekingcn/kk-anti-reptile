@@ -153,6 +153,7 @@ spring.redisson.password = xxx
 | ip-rule.enabled | 是否启用 IP Rule | true | true |
 | ip-rule.expiration-time | 时间窗口长度(ms) | 5000 | 5000 |
 | ip-rule.request-max-size | 单个时间窗口内，最大请求数 | 20 | 20 |
+| ip-rule.lock-expire | 命中规则后自动解除时间（单位：s） | 10天 | 20 |
 | ip-rule.ignore-ip | IP 白名单，支持后缀'*'通配，以','分隔 | 空 | 192.168.*,127.0.0.1 |
 | ua-rule.enabled | 是否启用 User-Agent Rule | true | true |
 | ua-rule.allowed-linux | 是否允许 Linux 系统访问 | false | false |
