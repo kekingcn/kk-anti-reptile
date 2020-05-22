@@ -29,6 +29,11 @@ public class AntiReptileProperties {
     private List<String> includeUrls;
 
     /**
+     * 非全局拦截下，不需要反爬的接口列表，以'/'开头，以','分隔
+     */
+    private List<String> excludedUrls;
+
+    /**
      * 基于请求IP的反爬规则
      */
     private IpRule ipRule = new IpRule();
@@ -52,6 +57,14 @@ public class AntiReptileProperties {
 
     public void setIncludeUrls(List<String> includeUrls) {
         this.includeUrls = includeUrls;
+    }
+
+    public List<String> getExcludedUrls() {
+        return excludedUrls;
+    }
+
+    public void setExcludedUrls(List<String> excludedUrls) {
+        this.excludedUrls = excludedUrls;
     }
 
     public IpRule getIpRule() {
