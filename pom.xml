@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
+        <spring-boot.version>2.5.12</spring-boot.version>
         <redisson.version>3.11.0</redisson.version>
         <servlet-api.version>3.0.1</servlet-api.version>
         <ua-util.version>1.21</ua-util.version>
