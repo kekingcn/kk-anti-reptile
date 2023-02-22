@@ -23,7 +23,7 @@
         <redisson.version>3.11.0</redisson.version>
         <servlet-api.version>3.0.1</servlet-api.version>
         <ua-util.version>1.21</ua-util.version>
-        <commons-fileupload.version>1.4</commons-fileupload.version>
+        <commons-fileupload.version>1.5</commons-fileupload.version>
     </properties>
 
     <name>kk-anti-reptile</name>
